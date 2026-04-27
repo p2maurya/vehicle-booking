@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a2218">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sanjeet Pickup Seva">
+<title>Sanjeet Pickup Seva</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g1:#0a2218;--g2:#123d28;--g3:#1a6640;--g4:#22954f;--g5:#c8eedd;--g6:#edf8f2;
+  --amber:#d68000;--amberbg:#fff7e0;
+  --red:#d92b2b;--redbg:#fff0f0;
+  --blue:#1464b4;--bluebg:#e6f1fc;
+  --txt:#0b1f14;--txt2:#2e5040;--txt3:#7a9985;
+  --bdr:#d5ece1;--white:#fff;--bg:#f2f8f5;
+  --r:18px;--rm:12px;--rs:8px;
+  --sh:0 2px 16px rgba(10,34,24,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:999;background:linear-gradient(160deg,#061410 0%,#0a2218 45%,#1a6640 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s;}
+.sp-icon{width:90px;height:90px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:26px;display:flex;align-items:center;justify-content:center;font-size:46px;animation:pop .6s cubic-bezier(.34,1.56,.64,1) .2s both;}
+.sp-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:30px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,.7);font-weight:500;}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fadeUp{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes load{to{width:100%}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* APP */
+#app{display:flex;flex-direction:column;height:100%;max-width:480px;margin:0 auto;position:relative;}
+
+/* TOPBAR */
+.topbar{background:var(--g1);padding:14px 16px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.tb-brand{display:flex;align-items:center;gap:10px;}
+.tb-icon{width:38px;height:38px;background:var(--g4);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.tb-name{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.2;}
+.tb-sub{font-size:10px;color:rgba(255,255,255,.45);}
+.tb-btn{width:36px;height:36px;background:rgba(255,255,255,.08);border:none;border-radius:10px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;color:#fff;}
+.tb-dot{width:7px;height:7px;background:var(--amber);border-radius:50%;position:absolute;top:7px;right:7px;border:1.5px solid var(--g1);}
+
+/* PORTAL TABS */
+.portal-bar{background:var(--g1);padding:0 16px 14px;display:flex;gap:6px;}
+.portal-btn{flex:1;padding:8px 4px;border:none;border-radius:10px;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);}
+.portal-btn.active{background:var(--g4);color:#fff;}
+
+/* PAGES */
+.pages{flex:1;overflow:hidden;position:relative;}
+.page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transform:translateX(18px);transition:opacity .22s,transform .22s;padding-bottom:24px;}
+.page.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.page::-webkit-scrollbar{width:3px;}
+.page::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px;}
+
+/* HERO */
+.hero{padding:20px 16px 22px;position:relative;overflow:hidden;}
+.hero-cust{background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 60%,#1a5c38 100%);}
+.hero-driver{background:linear-gradient(135deg,#0e2a50 0%,#1464b4 100%);}
+.hero-admin{background:linear-gradient(135deg,#3d1500 0%,#7a3000 100%);}
+.hero::before{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.04);}
+.hero-eyebrow{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.hero-title{font-size:24px;font-weight:900;color:#fff;line-height:1.25;letter-spacing:-.5px;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.5);margin-top:6px;line-height:1.5;}
+
+/* CONTACT CARD */
+.contact-card{margin:12px 16px 0;background:var(--white);border-radius:var(--r);border:1px solid var(--bdr);box-shadow:var(--sh);overflow:hidden;}
+.cc-hdr{background:linear-gradient(90deg,var(--g3),var(--g4));padding:10px 16px;}
+.cc-hdr span{font-size:12px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.3px;}
+.cc-body{padding:14px 16px;}
+.cc-num{font-size:30px;font-weight:900;color:var(--txt);letter-spacing:-1px;line-height:1;}
+.cc-note{font-size:12px;color:var(--txt3);margin-top:4px;line-height:1.6;}
+.cc-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+.btn-call-big{padding:13px;background:var(--g3);color:#fff;border:none;border-radius:var(--rm);font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:transform .15s;text-decoration:none;}
+.btn-wa-big{padding:13px;background:#25d366;color:#fff;border:none;border-radius:var(--rm);font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:transform .15s;text-decoration:none;}
+.btn-call-big:active,.btn-wa-big:active{transform:scale(.97);}
+
+/* GUARANTEE */
+.guarantee{margin:12px 16px 0;background:var(--amberbg);border:1px solid #ffd97a;border-radius:var(--rm);padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.guar-icon{font-size:26px;flex-shrink:0;}
+.guar-text{font-size:13px;font-weight:600;color:#7a4d00;line-height:1.5;}
+.guar-text span{display:block;font-size:11px;font-weight:400;color:#a06a00;margin-top:2px;}
+
+/* SECTIONS */
+.section{padding:0 16px;}
+.sec-title{font-size:15px;font-weight:800;color:var(--txt);margin:16px 0 10px;display:flex;align-items:center;gap:8px;}
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--bdr);box-shadow:var(--sh);padding:16px;margin-bottom:12px;}
+
+/* STEPS */
+.step-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.step-row:last-child{margin-bottom:0;}
+.step-num{width:30px;height:30px;border-radius:9px;background:var(--g6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--g3);flex-shrink:0;}
+.step-text{font-size:13px;color:var(--txt2);line-height:1.6;padding-top:4px;}
+.step-text b{color:var(--txt);}
+
+/* SERVICES */
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.svc-card{background:var(--white);border:1px solid var(--bdr);border-radius:var(--rm);padding:12px 8px;text-align:center;box-shadow:var(--sh);}
+.svc-icon{font-size:24px;display:block;margin-bottom:6px;}
+.svc-label{font-size:11px;font-weight:700;color:var(--txt2);}
+.svc-note{font-size:10px;color:var(--txt3);margin-top:2px;}
+
+/* AVAILABILITY */
+.avail-card{margin:12px 16px 0;background:var(--white);border-radius:var(--r);border:1px solid var(--bdr);box-shadow:var(--sh);padding:16px;}
+.avail-row{display:flex;align-items:center;justify-content:space-between;}
+.avail-label{font-size:15px;font-weight:700;color:var(--txt);}
+.avail-sub{font-size:12px;color:var(--txt3);margin-top:2px;}
+.toggle{width:52px;height:28px;background:#d5ece1;border-radius:30px;position:relative;cursor:pointer;transition:background .25s;border:none;flex-shrink:0;}
+.toggle.on{background:var(--g4);}
+.toggle::after{content:'';width:22px;height:22px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:transform .25s;box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.toggle.on::after{transform:translateX(24px);}
+.avail-status{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-top:10px;}
+.avail-status.free{background:var(--g6);color:var(--g3);}
+.avail-status.busy{background:var(--amberbg);color:var(--amber);}
+.avail-status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;}
+
+/* FORM */
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:5px;letter-spacing:.3px;text-transform:uppercase;}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1.5px solid var(--bdr);border-radius:var(--rm);font-size:14px;font-family:'Outfit','Noto Sans Devanagari',sans-serif;background:var(--bg);color:var(--txt);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--g4);box-shadow:0 0 0 3px rgba(34,149,79,.1);background:#fff;}
+.field textarea{height:70px;resize:none;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* GOODS GRID */
+.goods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.goods-btn{border:1.5px solid var(--bdr);border-radius:var(--rm);padding:10px 6px;text-align:center;cursor:pointer;background:var(--bg);transition:all .2s;}
+.goods-btn .gi{font-size:20px;display:block;margin-bottom:4px;}
+.goods-btn .gl{font-size:11px;font-weight:600;color:var(--txt2);}
+.goods-btn.active{border-color:var(--g4);background:var(--g6);}
+.goods-btn.active .gl{color:var(--g3);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 16px 0;}
+.stat{background:var(--white);border:1px solid var(--bdr);border-radius:var(--rm);padding:12px 8px;text-align:center;box-shadow:var(--sh);}
+.stat-n{font-size:26px;font-weight:900;color:var(--txt);line-height:1;}
+.stat-n.grn{color:var(--g4);}
+.stat-n.amb{color:var(--amber);}
+.stat-l{font-size:10px;color:var(--txt3);margin-top:3px;font-weight:600;}
+
+/* EARN BOX */
+.earn-box{margin:12px 16px 0;background:linear-gradient(135deg,#3d1500,#7a3000);border-radius:var(--r);padding:16px;position:relative;overflow:hidden;}
+.earn-box::after{content:'₹';position:absolute;right:-5px;bottom:-18px;font-size:100px;font-weight:900;color:rgba(255,255,255,.06);}
+.earn-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.5px;text-transform:uppercase;}
+.earn-amt{font-size:38px;font-weight:900;color:#fff;line-height:1.15;letter-spacing:-1px;}
+.earn-sub{font-size:12px;color:rgba(255,255,255,.4);margin-top:3px;}
+
+/* BOOKING ITEMS */
+.book-item{display:flex;align-items:flex-start;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--bdr);gap:10px;}
+.book-item:last-child{border-bottom:none;padding-bottom:0;}
+.bi-left{flex:1;min-width:0;}
+.bi-route{font-size:14px;font-weight:700;color:var(--txt);}
+.bi-name{font-size:12px;font-weight:600;color:var(--txt2);margin-top:2px;}
+.bi-meta{font-size:11px;color:var(--txt3);margin-top:2px;line-height:1.5;}
+.bi-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+.bi-name a{color:var(--g3);text-decoration:none;font-weight:700;}
+.bi-name a:hover{text-decoration:underline;}
+
+/* BADGES */
+.badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.3px;}
+.b-pend{background:var(--amberbg);color:var(--amber);}
+.b-conf{background:var(--g6);color:var(--g3);}
+.b-done{background:#f0f0f0;color:#777;}
+.b-free{background:var(--g6);color:var(--g3);}
+.b-busy{background:var(--amberbg);color:var(--amber);}
+.b-off{background:#f0f0f0;color:#999;}
+
+/* ACTION BUTTONS */
+.abtns{display:flex;gap:5px;}
+.abtn{padding:5px 10px;border-radius:var(--rs);font-size:11px;font-weight:700;font-family:'Outfit',sans-serif;border:1.5px solid;cursor:pointer;transition:opacity .15s;}
+.abtn:active{opacity:.7;}
+.abtn-green{border-color:var(--g5);color:var(--g3);background:var(--g6);}
+.abtn-red{border-color:#ffd5d5;color:var(--red);background:var(--redbg);}
+.abtn-gray{border-color:var(--bdr);color:var(--txt2);background:#fff;}
+
+/* DRIVER ITEMS */
+.driver-item{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--bdr);}
+.driver-item:last-child{border-bottom:none;}
+.driver-left{display:flex;align-items:center;gap:10px;}
+.avatar{width:38px;height:38px;border-radius:12px;background:var(--g6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--g3);flex-shrink:0;}
+.driver-name{font-size:13px;font-weight:700;color:var(--txt);}
+.driver-info{font-size:11px;color:var(--txt3);margin-top:1px;}
+.call-link{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;background:var(--g6);border:none;border-radius:20px;font-size:12px;font-weight:700;color:var(--g3);cursor:pointer;text-decoration:none;transition:background .15s;}
+.call-link:active{background:var(--g5);}
+
+/* MAIN BUTTONS */
+.btn-main{width:100%;padding:14px;background:linear-gradient(135deg,var(--g3) 0%,var(--g4) 100%);color:#fff;border:none;border-radius:var(--rm);font-size:15px;font-weight:800;font-family:'Outfit',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(26,102,64,.28);transition:transform .15s;margin-top:14px;display:block;text-align:center;text-decoration:none;}
+.btn-main:active{transform:scale(.98);}
+.btn-main.blue{background:linear-gradient(135deg,#1464b4,#1971c2);box-shadow:0 4px 16px rgba(20,100,180,.25);}
+.btn-outline{width:100%;padding:12px;background:#fff;color:var(--txt2);border:1.5px solid var(--bdr);border-radius:var(--rm);font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;margin-top:8px;}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(10,34,24,.65);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .3s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.sheet{width:100%;background:#fff;border-radius:24px 24px 0 0;padding:20px 16px max(36px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.1,.64,1);max-height:82vh;overflow-y:auto;}
+.overlay.open .sheet{transform:translateY(0);}
+.sheet-handle{width:40px;height:4px;background:var(--bdr);border-radius:2px;margin:0 auto 18px;}
+.sheet-title{font-size:17px;font-weight:800;color:var(--txt);margin-bottom:4px;}
+.sheet-sub{font-size:12px;color:var(--txt3);margin-bottom:16px;}
+.driver-pick{display:flex;align-items:center;justify-content:space-between;padding:13px;border-radius:var(--rm);border:1.5px solid var(--bdr);margin-bottom:8px;cursor:pointer;transition:all .15s;}
+.driver-pick:active{border-color:var(--g4);background:var(--g6);}
+
+/* TOAST */
+.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--g1);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:300;opacity:0;transition:all .28s;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.error{background:#c0392b;}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:32px;flex-direction:column;gap:12px;}
+.spinner{width:28px;height:28px;border:3px solid var(--bdr);border-top-color:var(--g4);border-radius:50%;animation:spin .7s linear infinite;}
+.loading-text{font-size:13px;color:var(--txt3);}
+
+/* EMPTY */
+.empty{text-align:center;padding:32px 16px;color:var(--txt3);}
+.empty-icon{font-size:36px;margin-bottom:8px;}
+.empty-text{font-size:13px;}
+
+/* SUCCESS BANNER */
+.success-banner{background:var(--g6);border:1px solid var(--g5);border-radius:var(--rm);padding:14px;text-align:center;margin-top:14px;}
+.success-banner .sb-icon{font-size:32px;margin-bottom:6px;}
+.success-banner .sb-title{font-size:15px;font-weight:800;color:var(--g3);}
+.success-banner .sb-sub{font-size:12px;color:var(--txt3);margin-top:3px;}
+
+/* FILTER TABS */
+.filter-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;}
+.filter-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border:1.5px solid var(--bdr);background:#fff;color:var(--txt2);transition:all .2s;font-family:'Outfit',sans-serif;}
+.filter-tab.active{background:var(--g4);color:#fff;border-color:var(--g4);}
+
+/* AREA INFO */
+.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.area-box{border-radius:var(--rs);padding:10px 12px;}
+.area-box-green{background:var(--g6);}
+.area-box-blue{background:var(--bluebg);}
+.area-label{font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:4px;}
+.area-label-green{color:var(--txt3);}
+.area-label-blue{color:#4a8bbf;}
+.area-cities{font-size:13px;font-weight:700;color:var(--txt2);}
+.area-sub{font-size:11px;margin-top:2px;}
+.area-sub-green{color:var(--txt3);}
+.area-sub-blue{color:#4a8bbf;}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-icon">🚐</div>
+  <div style="margin-top:18px;text-align:center;">
+    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;animation:fadeUp .4s ease .4s both;">Welcome to</div>
+    <div style="font-size:30px;font-weight:900;color:#fff;letter-spacing:-.5px;line-height:1.25;margin-top:6px;animation:fadeUp .5s ease .5s both;">Sanjeet<br>Pickup Seva</div>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:22px;flex-wrap:wrap;justify-content:center;animation:fadeUp .5s ease .75s both;">
+    <span class="sp-pill">📍 Mirzapur</span>
+    <span class="sp-pill">📍 Varanasi</span>
+    <span class="sp-pill">📍 Sonbhadra</span>
+    <span class="sp-pill">📍 Prayagraj</span>
+  </div>
+  <div style="width:48px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;margin-top:44px;overflow:hidden;animation:fadeUp .4s ease 1s both;">
+    <div style="height:100%;width:0;background:#22954f;border-radius:2px;animation:load 1.5s ease 1s forwards;"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div id="app">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="tb-brand">
+      <div class="tb-icon">🚐</div>
+      <div>
+        <div class="tb-name">7s Transport</div>
+        <div class="tb-sub">Mirzapur · Varanasi · Sonbhadra · Prayagraj</div>
+      </div>
+    </div>
+    <button class="tb-btn" id="notif-btn">🔔<span class="tb-dot" id="notif-dot"></span></button>
+  </div>
+
+  <!-- PORTAL TABS -->
+  <div class="portal-bar">
+    <button class="portal-btn active" id="pb-cust" onclick="switchPortal('cust')">🙋 Customer</button>
+    <button class="portal-btn" id="pb-driver" onclick="switchPortal('driver')">🚐 Gadi Wala</button>
+    <button class="portal-btn" id="pb-admin" onclick="switchPortal('admin')">🛡️ Admin</button>
+  </div>
+
+  <div class="pages">
+
+    <!-- ═══════════════════════════════
+         CUSTOMER PAGE
+    ═══════════════════════════════ -->
+    <div class="page active" id="page-cust">
+      <div class="hero hero-cust">
+        <div class="hero-eyebrow">7s Transport</div>
+        <div class="hero-title">Saman Bhejwao<br>Kahin Bhi, Kabhi Bhi</div>
+        <div class="hero-sub">Local se bahar tak — ek call mein kaam ho jaata hai</div>
+      </div>
+
+      <!-- MAIN CONTACT CARD -->
+      <div class="contact-card">
+        <div class="cc-hdr"><span>📞 BOOKING KE LIYE SAMPARK KAREIN</span></div>
+        <div class="cc-body">
+          <div style="font-size:11px;font-weight:700;color:var(--txt3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;">Sanjeet Ji Ka Number</div>
+          <div class="cc-num" id="owner-number">+91 8787010761</div>
+          <div class="cc-note">Sirf yahi ek number pe call ya WhatsApp karein<br>2 ghante ke andar jawab guaranteed ✅</div>
+          <div class="cc-btns">
+            <a class="btn-call-big" id="call-link" href="tel:+918787010761">📞 Call Karo</a>
+            <a class="btn-wa-big" id="wa-link" href="https://wa.me/918787010761?text=Namaste%20Sanjeet%20Ji!%0AMujhe%20pickup%20chahiye." target="_blank">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.564 4.14 1.546 5.874L0 24l6.288-1.526A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.797 9.797 0 01-5.012-1.378l-.36-.213-3.731.905.944-3.63-.234-.374A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- GUARANTEE -->
+      <div class="guarantee">
+        <div class="guar-icon">⏱️</div>
+        <div class="guar-text">2 Ghante Mein Response Guaranteed
+          <span>Sanjeet Ji khud dekhenge free driver kaun hai aur gadi bhejenge</span>
+        </div>
+      </div>
+
+      <!-- BOOKING FORM -->
+      <div class="section">
+        <div class="sec-title">📋 Abhi Booking Karo</div>
+        <div class="card" id="booking-form-card">
+          <div class="field"><label>Aapka Naam *</label><input type="text" id="f-name" placeholder="Jaise: Ram Kumar"/></div>
+          <div class="field"><label>Mobile Number *</label><input type="tel" id="f-phone" placeholder="9876543210" maxlength="10"/></div>
+          <div class="field-row">
+            <div class="field"><label>Pickup Jagah *</label><input type="text" id="f-from" placeholder="Gaon / Shehar"/></div>
+            <div class="field"><label>Drop Jagah *</label><input type="text" id="f-to" placeholder="Shehar / Market"/></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Tarikh *</label><input type="date" id="f-date"/></div>
+            <div class="field"><label>Samay</label><input type="time" id="f-time" value="09:00"/></div>
+          </div>
+          <div class="field"><label>Kya Bhejana Hai</label>
+            <div class="goods-grid">
+              <div class="goods-btn active" onclick="selectGoods(this,'Saman')"><span class="gi">📦</span><span class="gl">Saman</span></div>
+              <div class="goods-btn" onclick="selectGoods(this,'Passenger')"><span class="gi">👥</span><span class="gl">Passenger</span></div>
+              <div class="goods-btn" onclick="selectGoods(this,'Kheti')"><span class="gi">🌾</span><span class="gl">Kheti</span></div>
+              <div class="goods-btn" onclick="selectGoods(this,'Pashu')"><span class="gi">🐄</span><span class="gl">Pashu</span></div>
+              <div class="goods-btn" onclick="selectGoods(this,'Tin/Loha')"><span class="gi">🔩</span><span class="gl">Tin/Loha</span></div>
+              <div class="goods-btn" onclick="selectGoods(this,'Kuch Bhi')"><span class="gi">🎁</span><span class="gl">Kuch Bhi</span></div>
+            </div>
+          </div>
+          <div class="field" style="margin-top:10px;"><label>Payment</label>
+            <select id="f-payment"><option value="Cash">💵 Cash — Driver ko denge</option><option value="UPI">📱 UPI / PhonePe / GPay</option><option value="Dono">🔄 Dono mein se koi bhi</option></select>
+          </div>
+          <div class="field"><label>Note (optional)</label><textarea id="f-note" placeholder="Koi khas baat..."></textarea></div>
+          <button class="btn-main" onclick="submitBooking()" id="submit-btn">✅ Booking Confirm Karo</button>
+          <div id="booking-success" style="display:none;">
+            <div class="success-banner">
+              <div class="sb-icon">🎉</div>
+              <div class="sb-title">Booking Ho Gayi!</div>
+              <div class="sb-sub">Sanjeet Ji 2 ghante mein call karenge</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOW IT WORKS -->
+        <div class="sec-title">❓ Kaise Kaam Karta Hai</div>
+        <div class="card">
+          <div class="step-row"><div class="step-num">1</div><div class="step-text"><b>Aap sirf ek number pe call karein</b> — Driver se seedha contact nahi hoga</div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text"><b>Sanjeet Ji free driver dhundhenge</b> — App pe real-time dekhenge kaun available hai</div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text"><b>2 ghante mein confirm</b> — Aapko callback aayega, gadi pakki hogi</div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text"><b>Driver aayega kaam karega</b> — Cash ya UPI, delivery pe payment</div></div>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="sec-title">🚛 Kya Bhej Sakte Ho</div>
+        <div class="service-grid">
+          <div class="svc-card"><span class="svc-icon">📦</span><div class="svc-label">Saman</div><div class="svc-note">Har tarah ka</div></div>
+          <div class="svc-card"><span class="svc-icon">🌾</span><div class="svc-label">Kheti</div><div class="svc-note">Anaj, beej</div></div>
+          <div class="svc-card"><span class="svc-icon">🐄</span><div class="svc-label">Pashu</div><div class="svc-note">Gaay, bhains</div></div>
+          <div class="svc-card"><span class="svc-icon">🔩</span><div class="svc-label">Tin/Loha</div><div class="svc-note">Building saman</div></div>
+          <div class="svc-card"><span class="svc-icon">👥</span><div class="svc-label">Passenger</div><div class="svc-note">Log bhi</div></div>
+          <div class="svc-card"><span class="svc-icon">🎁</span><div class="svc-label">Kuch Bhi</div><div class="svc-note">Poochh lo</div></div>
+        </div>
+
+        <!-- AREA -->
+        <div class="sec-title">📍 Kahan Kahan Jaate Hain</div>
+        <div class="card" style="padding:12px 14px;">
+          <div class="area-grid">
+            <div class="area-box area-box-green">
+              <div class="area-label area-label-green">Local Area</div>
+              <div class="area-cities">Mirzapur · Varanasi</div>
+              <div class="area-sub area-sub-green">Sonbhadra · Prayagraj</div>
+            </div>
+            <div class="area-box area-box-blue">
+              <div class="area-label area-label-blue">Bahar Bhi</div>
+              <div class="area-cities" style="color:var(--blue);">UP ke bahar bhi</div>
+              <div class="area-sub area-sub-blue">Call karke confirm karein</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+         DRIVER PAGE
+    ═══════════════════════════════ -->
+    <div class="page" id="page-driver">
+      <div class="hero hero-driver">
+        <div class="hero-eyebrow">Gadi Wala Portal</div>
+        <div class="hero-title">Apni Availability<br>Yahan Set Karo</div>
+        <div class="hero-sub">Free ho to ON karo — Sanjeet Ji call karenge trip ke liye</div>
+      </div>
+
+      <!-- AVAILABILITY -->
+      <div class="avail-card" id="avail-section" style="display:none;">
+        <div class="avail-row">
+          <div>
+            <div class="avail-label">Kya Aap Abhi Free Ho?</div>
+            <div class="avail-sub">OFF karo jab trip pe ho ya rest pe ho</div>
+          </div>
+          <button class="toggle on" id="avail-toggle" onclick="toggleAvail()"></button>
+        </div>
+        <div class="avail-status free" id="avail-status">Free Hoon — Trip Le Sakta Hoon</div>
+      </div>
+
+      <div class="section">
+        <!-- REGISTER -->
+        <div class="sec-title">📝 Apni Jankari Bharein</div>
+        <div class="card" id="driver-reg-card">
+          <div class="field"><label>Aapka Naam *</label><input type="text" id="d-name" placeholder="Jaise: Ramesh Kumar"/></div>
+          <div class="field"><label>Mobile Number *</label><input type="tel" id="d-phone" placeholder="9876543210" maxlength="10"/></div>
+          <div class="field-row">
+            <div class="field"><label>Aapka Shehar</label>
+              <select id="d-city"><option>Mirzapur</option><option>Varanasi</option><option>Sonbhadra</option><option>Prayagraj</option></select>
+            </div>
+            <div class="field"><label>Gadi Ka Type</label>
+              <select id="d-vehicle"><option>Pickup (Chhoti)</option><option>Pickup (Badi)</option><option>Truck</option><option>Tempo</option></select>
+            </div>
+          </div>
+          <div class="field"><label>Gadi Number</label><input type="text" id="d-vnum" placeholder="UP65 AB 1234"/></div>
+          <div class="field"><label>Kitni Door Ja Sakte Ho</label>
+            <select id="d-range"><option>Local (50km)</option><option>District ke andar</option><option>UP ke andar</option><option>UP se bahar bhi</option></select>
+          </div>
+          <button class="btn-main blue" id="driver-reg-btn" onclick="registerDriver()">✅ Register Karo — Admin Ko Dikhega</button>
+          <div id="driver-reg-success" style="display:none;">
+            <div class="success-banner" style="background:#e6f1fc;border-color:#b3d4f5;margin-top:14px;">
+              <div class="sb-icon">👍</div>
+              <div class="sb-title" style="color:var(--blue);">Registration Ho Gayi!</div>
+              <div class="sb-sub">Sanjeet Ji aapko trip pe call karenge</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MY TRIPS -->
+        <div class="sec-title">🗓️ Meri Upcoming Trips</div>
+        <div class="card">
+          <div id="driver-trips-list">
+            <div class="loading"><div class="spinner"></div><div class="loading-text">Trips load ho rahi hain...</div></div>
+          </div>
+        </div>
+
+        <!-- COMPLETE TRIP -->
+        <div class="card">
+          <div style="font-size:14px;font-weight:700;color:var(--txt);margin-bottom:14px;">✅ Trip Complete Karo</div>
+          <div class="field"><label>Trip Chunein</label>
+            <select id="d-trip-select"><option>-- Pehle trips load karein --</option></select>
+          </div>
+          <div class="field"><label>Payment Mili?</label>
+            <select id="d-payment-recv"><option value="cash">✅ Haan — Cash mili</option><option value="upi">✅ Haan — UPI se mili</option><option value="pending">⏳ Abhi nahi mili</option></select>
+          </div>
+          <button class="btn-main" onclick="completeTrip()">Trip Complete Mark Karo</button>
+        </div>
+
+        <!-- CALL SANJEET -->
+        <div class="card" style="text-align:center;padding:20px 16px;">
+          <div style="font-size:13px;color:var(--txt3);margin-bottom:12px;">Koi bhi problem ho to seedha Sanjeet Ji ko call karein</div>
+          <a class="btn-call-big" href="tel:+919999999999" style="max-width:230px;margin:0 auto;">📞 Sanjeet Ji Ko Call Karo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+         ADMIN PAGE
+    ═══════════════════════════════ -->
+    <div class="page" id="page-admin">
+      <div class="hero hero-admin">
+        <div class="hero-eyebrow">🛡️ Sirf Aapke Liye — Sanjeet Ji</div>
+        <div class="hero-title">Poora Control<br>Aapke Haath Mein</div>
+        <div class="hero-sub">Bookings dekhein · Free driver chunein · Call karein</div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat"><div class="stat-n" id="s-total">—</div><div class="stat-l">Kul Bookings</div></div>
+        <div class="stat"><div class="stat-n amb" id="s-pending">—</div><div class="stat-l">Pending</div></div>
+        <div class="stat"><div class="stat-n grn" id="s-comm">—</div><div class="stat-l">Aaj Commission</div></div>
+      </div>
+
+      <!-- COMMISSION -->
+      <div class="earn-box">
+        <div class="earn-label">Is Hafte Ka Commission</div>
+        <div class="earn-amt" id="earn-week">₹—</div>
+        <div class="earn-sub" id="earn-sub">Loading...</div>
+      </div>
+
+      <div class="section">
+        <!-- FREE DRIVERS -->
+        <div class="sec-title">🟢 Abhi Free Drivers</div>
+        <div class="card">
+          <div style="background:var(--g6);border-radius:var(--rs);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--txt2);">
+            💡 Booking aaya? Free driver ko call karo, assign karo — 2 ghante mein customer ko confirm karo
+          </div>
+          <div id="free-drivers-list">
+            <div class="loading"><div class="spinner"></div><div class="loading-text">Drivers load ho rahe hain...</div></div>
+          </div>
+        </div>
+
+        <!-- PENDING BOOKINGS -->
+        <div class="sec-title">⏳ Bookings Manage Karo</div>
+        <div class="card">
+          <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterBookings('all',this)">Sab</button>
+            <button class="filter-tab" onclick="filterBookings('pending',this)">Pending</button>
+            <button class="filter-tab" onclick="filterBookings('confirmed',this)">Confirmed</button>
+            <button class="filter-tab" onclick="filterBookings('done',this)">Done</button>
+          </div>
+          <div id="admin-bookings-list">
+            <div class="loading"><div class="spinner"></div><div class="loading-text">Bookings load ho rahi hain...</div></div>
+          </div>
+        </div>
+
+        <!-- ALL DRIVERS -->
+        <div class="sec-title">🚐 Saare Drivers Ka Status</div>
+        <div class="card">
+          <div id="all-drivers-list">
+            <div class="loading"><div class="spinner"></div><div class="loading-text">Loading...</div></div>
+          </div>
+          <button class="btn-main" style="font-size:13px;padding:11px;" onclick="switchPortal('driver')">+ Naya Driver Add Karo</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end pages -->
+</div><!-- end app -->
+
+<!-- ASSIGN MODAL -->
+<div class="overlay" id="assignModal" onclick="closeModal('assignModal',event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="assign-trip-title">Driver Assign Karo</div>
+    <div class="sheet-sub">Free driver chunein — phir khud call karke confirm karo</div>
+    <div id="assign-drivers-list">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const OWNER_PHONE = '9999999999'; // <<< Yahan apna number daalo
+const API = ''; // same origin
+
+// ─── STATE ───────────────────────────────────────────────────
+let selectedGoods = 'Saman';
+let currentBookingFilter = 'all';
+let allBookings = [];
+let allDrivers = [];
+let assigningBookingId = null;
+let myDriverId = null; // saved after registration
+
+// ─── SPLASH ──────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const s = document.getElementById('splash');
+    s.style.opacity = '0';
+    setTimeout(() => { s.style.display = 'none'; loadInitial(); }, 700);
+  }, 2400);
+  // Set min date
+  const d = document.getElementById('f-date');
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+  d.min = tomorrow.toISOString().split('T')[0];
+  d.value = tomorrow.toISOString().split('T')[0];
+  // Notif btn
+  document.getElementById('notif-btn').onclick = () => showToast('Pending bookings hain — Admin panel check karein!');
+});
+
+function loadInitial() {
+  loadStats();
+  loadFreeDrivers();
+  loadAdminBookings();
+  loadAllDrivers();
+  loadDriverTrips();
+}
+
+// ─── PORTAL SWITCH ───────────────────────────────────────────
+function switchPortal(p) {
+  ['cust','driver','admin'].forEach(x => {
+    document.getElementById('page-'+x).classList.remove('active');
+    document.getElementById('pb-'+x).classList.remove('active');
+  });
+  document.getElementById('page-'+p).classList.add('active');
+  document.getElementById('pb-'+p).classList.add('active');
+  if(p==='admin') { loadStats(); loadFreeDrivers(); loadAdminBookings(); loadAllDrivers(); }
+  if(p==='driver') loadDriverTrips();
+}
+
+// ─── TOAST ───────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, isError=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── GOODS SELECT ────────────────────────────────────────────
+function selectGoods(el, type) {
+  document.querySelectorAll('.goods-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedGoods = type;
+}
+
+// ─── STATS ───────────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const r = await fetch(API+'/api/stats');
+    const d = await r.json();
+    document.getElementById('s-total').textContent = d.totalBookings;
+    document.getElementById('s-pending').textContent = d.pending;
+    document.getElementById('s-comm').textContent = '₹'+d.todayCommission;
+    document.getElementById('earn-week').textContent = '₹'+d.weekCommission.toLocaleString();
+    document.getElementById('earn-sub').textContent = d.totalBookings+' bookings · '+d.freeDrivers+' drivers free abhi';
+    if(d.pending > 0) document.getElementById('notif-dot').style.display = 'block';
+  } catch(e) { console.log('Stats error', e); }
+}
+
+// ─── FREE DRIVERS ─────────────────────────────────────────────
+async function loadFreeDrivers() {
+  const el = document.getElementById('free-drivers-list');
+  try {
+    const r = await fetch(API+'/api/drivers/free');
+    const drivers = await r.json();
+    if(!drivers.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">😴</div><div class="empty-text">Abhi koi driver free nahi hai</div></div>'; return; }
+    el.innerHTML = drivers.map(d => `
+      <div class="driver-item">
+        <div class="driver-left">
+          <div class="avatar">${initials(d.name)}</div>
+          <div>
+            <div class="driver-name">${d.name}</div>
+            <div class="driver-info">${d.city} · ${d.vehicle} · ${d.range}</div>
+          </div>
+        </div>
+        <a class="call-link" href="tel:+91${d.phone}">📞 ${d.phone}</a>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-text">Load nahi hua, refresh karein</div></div>'; }
+}
+
+// ─── ADMIN BOOKINGS ──────────────────────────────────────────
+async function loadAdminBookings() {
+  const el = document.getElementById('admin-bookings-list');
+  try {
+    const r = await fetch(API+'/api/bookings');
+    allBookings = await r.json();
+    renderAdminBookings();
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-text">Load nahi hua</div></div>'; }
+}
+
+function filterBookings(filter, btn) {
+  currentBookingFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderAdminBookings();
+}
+
+function renderAdminBookings() {
+  const el = document.getElementById('admin-bookings-list');
+  let filtered = allBookings;
+  if(currentBookingFilter !== 'all') filtered = allBookings.filter(b => b.status === currentBookingFilter);
+  if(!filtered.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Koi booking nahi</div></div>'; return; }
+  el.innerHTML = filtered.map(b => `
+    <div class="book-item">
+      <div class="bi-left">
+        <div class="bi-route">${b.from} → ${b.to}</div>
+        <div class="bi-name">${b.customerName} · <a href="tel:+91${b.phone}">📞 ${b.phone}</a></div>
+        <div class="bi-meta">${goodsIcon(b.goodsType)} ${b.goodsType} · ${fmtDate(b.date)} ${b.time} · ${b.payment}${b.driverAssigned?'<br>🚐 '+b.driverAssigned:''}</div>
+      </div>
+      <div class="bi-right">
+        <span class="badge ${badgeClass(b.status)}">${statusLabel(b.status)}</span>
+        <div class="abtns">
+          ${b.status==='pending'?`<button class="abtn abtn-green" onclick="openAssign('${b.id}','${b.from} → ${b.to}')">Assign</button>`:''}
+          ${b.status!=='done'?`<button class="abtn abtn-green" onclick="markDone('${b.id}')">✓ Done</button>`:''}
+          <button class="abtn abtn-red" onclick="deleteBooking('${b.id}')">✕</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+async function markDone(id) {
+  try {
+    await fetch(API+'/api/bookings/'+id+'/status', {method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'done'})});
+    showToast('✅ Trip done mark ho gayi!');
+    loadAdminBookings(); loadStats();
+  } catch(e) { showToast('Error hua', true); }
+}
+
+async function deleteBooking(id) {
+  if(!confirm('Is booking ko delete karein?')) return;
+  try {
+    await fetch(API+'/api/bookings/'+id, {method:'DELETE'});
+    showToast('🗑️ Booking delete ho gayi');
+    loadAdminBookings(); loadStats();
+  } catch(e) { showToast('Error hua', true); }
+}
+
+// ─── ALL DRIVERS ─────────────────────────────────────────────
+async function loadAllDrivers() {
+  const el = document.getElementById('all-drivers-list');
+  try {
+    const r = await fetch(API+'/api/drivers');
+    allDrivers = await r.json();
+    el.innerHTML = allDrivers.map(d => `
+      <div class="driver-item">
+        <div class="driver-left">
+          <div class="avatar">${initials(d.name)}</div>
+          <div>
+            <div class="driver-name">${d.name}</div>
+            <div class="driver-info">${d.city} · ${d.phone}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+          <span class="badge ${d.available?'b-free':'b-busy'}">${d.available?'🟢 Free':'🟡 Busy'}</span>
+          <a class="call-link" href="tel:+91${d.phone}">📞</a>
+        </div>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-text">Load nahi hua</div></div>'; }
+}
+
+// ─── ASSIGN MODAL ─────────────────────────────────────────────
+function openAssign(bookingId, route) {
+  assigningBookingId = bookingId;
+  document.getElementById('assign-trip-title').textContent = 'Assign: '+route;
+  const el = document.getElementById('assign-drivers-list');
+  const freeDrivers = allDrivers.filter(d => d.available);
+  if(!freeDrivers.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">😴</div><div class="empty-text">Koi driver free nahi abhi</div></div>';
+  } else {
+    el.innerHTML = freeDrivers.map(d => `
+      <div class="driver-pick" onclick="doAssign('${d.id}','${d.name}','${d.phone}')">
+        <div class="driver-left">
+          <div class="avatar">${initials(d.name)}</div>
+          <div><div class="driver-name">${d.name}</div><div class="driver-info">${d.city} · ${d.vehicle}</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          <span class="badge b-free">🟢 Free</span>
+          <a class="call-link" href="tel:+91${d.phone}" onclick="event.stopPropagation()">📞 ${d.phone}</a>
+        </div>
+      </div>`).join('');
+  }
+  document.getElementById('assignModal').classList.add('open');
+}
+
+async function doAssign(driverId, driverName, driverPhone) {
+  try {
+    await fetch(API+'/api/bookings/'+assigningBookingId+'/assign', {
+      method:'PATCH', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({driverName})
+    });
+    document.getElementById('assignModal').classList.remove('open');
+    showToast('✅ '+driverName+' assign! Call karein: '+driverPhone);
+    loadAdminBookings(); loadFreeDrivers(); loadAllDrivers(); loadStats();
+  } catch(e) { showToast('Error hua', true); }
+}
+
+function closeModal(id, e) {
+  if(e.target === document.getElementById(id)) document.getElementById(id).classList.remove('open');
+}
+
+// ─── SUBMIT BOOKING ──────────────────────────────────────────
+async function submitBooking() {
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const from = document.getElementById('f-from').value.trim();
+  const to = document.getElementById('f-to').value.trim();
+  const date = document.getElementById('f-date').value;
+  if(!name||!phone||!from||!to||!date) { showToast('⚠️ Saari details bharein!', true); return; }
+  if(phone.length !== 10) { showToast('⚠️ 10 digit ka number daalo', true); return; }
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Bheja ja raha hai...'; btn.disabled = true;
+  try {
+    await fetch(API+'/api/bookings', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        customerName: name, phone, from, to, date,
+        time: document.getElementById('f-time').value,
+        goodsType: selectedGoods,
+        payment: document.getElementById('f-payment').value,
+        note: document.getElementById('f-note').value
+      })
+    });
+    document.getElementById('booking-success').style.display = 'block';
+    btn.style.display = 'none';
+    ['f-name','f-phone','f-from','f-to','f-note'].forEach(id => document.getElementById(id).value='');
+    showToast('🎉 Booking ho gayi! Sanjeet Ji call karenge');
+    loadStats();
+  } catch(e) {
+    btn.textContent = '✅ Booking Confirm Karo'; btn.disabled = false;
+    showToast('Error hua, phir try karein', true);
+  }
+}
+
+// ─── REGISTER DRIVER ──────────────────────────────────────────
+async function registerDriver() {
+  const name = document.getElementById('d-name').value.trim();
+  const phone = document.getElementById('d-phone').value.trim();
+  if(!name||!phone) { showToast('⚠️ Naam aur number bharo!', true); return; }
+  const btn = document.getElementById('driver-reg-btn');
+  btn.textContent = 'Register ho raha hai...'; btn.disabled = true;
+  try {
+    const r = await fetch(API+'/api/drivers', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name, phone,
+        city: document.getElementById('d-city').value,
+        vehicle: document.getElementById('d-vehicle').value,
+        vehicleNumber: document.getElementById('d-vnum').value,
+        range: document.getElementById('d-range').value
+      })
+    });
+    const driver = await r.json();
+    myDriverId = driver.id;
+    document.getElementById('driver-reg-success').style.display = 'block';
+    document.getElementById('avail-section').style.display = 'block';
+    btn.textContent = '✅ Registered!';
+    showToast('👍 Registration ho gayi!');
+    loadDriverTrips(); loadAllDrivers(); loadFreeDrivers();
+  } catch(e) {
+    btn.textContent = '✅ Register Karo'; btn.disabled = false;
+    showToast('Error hua', true);
+  }
+}
+
+// ─── DRIVER TRIPS ─────────────────────────────────────────────
+async function loadDriverTrips() {
+  const el = document.getElementById('driver-trips-list');
+  const sel = document.getElementById('d-trip-select');
+  try {
+    const r = await fetch(API+'/api/bookings');
+    const all = await r.json();
+    const myName = document.getElementById('d-name').value.trim();
+    const myTrips = myName ? all.filter(b => b.driverAssigned===myName && b.status!=='done') : all.filter(b=>b.status==='confirmed').slice(0,3);
+    if(!myTrips.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Koi upcoming trip nahi abhi</div></div>';
+      sel.innerHTML = '<option>-- Koi trip nahi --</option>';
+      return;
+    }
+    el.innerHTML = myTrips.map(b => `
+      <div class="book-item">
+        <div class="bi-left">
+          <div class="bi-route">${b.from} → ${b.to}</div>
+          <div class="bi-name">${b.customerName}</div>
+          <div class="bi-meta">${goodsIcon(b.goodsType)} ${b.goodsType} · ${fmtDate(b.date)} ${b.time} · ${b.payment}</div>
+        </div>
+        <div class="bi-right">
+          <span class="badge ${badgeClass(b.status)}">${statusLabel(b.status)}</span>
+          <a class="call-link" href="tel:+91${b.phone}">📞 Call</a>
+        </div>
+      </div>`).join('');
+    sel.innerHTML = myTrips.map(b => `<option value="${b.id}">${b.from} → ${b.to} (${fmtDate(b.date)} ${b.time})</option>`).join('');
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-text">Load nahi hua</div></div>'; }
+}
+
+async function completeTrip() {
+  const tripId = document.getElementById('d-trip-select').value;
+  if(!tripId || tripId==='-- Koi trip nahi --') { showToast('⚠️ Pehle trip chunein', true); return; }
+  try {
+    await fetch(API+'/api/bookings/'+tripId+'/status', {method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'done'})});
+    showToast('✅ Trip complete! Sanjeet Ji ko pata chal gaya.');
+    loadDriverTrips(); loadStats();
+  } catch(e) { showToast('Error hua', true); }
+}
+
+// ─── AVAILABILITY ─────────────────────────────────────────────
+let isAvail = true;
+async function toggleAvail() {
+  isAvail = !isAvail;
+  const btn = document.getElementById('avail-toggle');
+  const st = document.getElementById('avail-status');
+  if(isAvail) { btn.classList.add('on'); st.className='avail-status free'; st.textContent='Free Hoon — Trip Le Sakta Hoon'; }
+  else { btn.classList.remove('on'); st.className='avail-status busy'; st.textContent='Busy Hoon — Abhi Trip Nahi Le Sakta'; }
+  showToast(isAvail ? '✅ Free mark ho gaye!' : '🔴 Busy mark ho gaye');
+  if(myDriverId) {
+    try { await fetch(API+'/api/drivers/'+myDriverId+'/availability', {method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({available:isAvail})}); loadFreeDrivers(); loadAllDrivers(); }
+    catch(e) {}
+  }
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────
+function initials(name) { return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function goodsIcon(g) { const m={'Saman':'📦','Passenger':'👥','Kheti':'🌾','Pashu':'🐄','Tin/Loha':'🔩','Kuch Bhi':'🎁'}; return m[g]||'📦'; }
+function badgeClass(s) { return s==='pending'?'b-pend':s==='confirmed'?'b-conf':s==='done'?'b-done':'b-pend'; }
+function statusLabel(s) { return s==='pending'?'Pending':s==='confirmed'?'Confirmed ✓':s==='done'?'Done ✓':'Pending'; }
+function fmtDate(d) { if(!d) return ''; const dt=new Date(d); return dt.toLocaleDateString('hi-IN',{day:'numeric',month:'short'}); }
+</script>
+</body>
+</html>
