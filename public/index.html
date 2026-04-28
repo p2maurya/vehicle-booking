@@ -281,7 +281,7 @@ html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;bac
   <!-- PORTAL TABS -->
   <div class="portal-bar">
     <button class="portal-btn active" id="pb-cust" onclick="switchPortal('cust')">🙋 Customer</button>
-    <button class="portal-btn" id="pb-driver" onclick="switchPortal('driver')">🚐 Gadi Wala</button>
+    <button class="portal-btn" id="pb-driver" onclick="switchPortal('driver')">🚐 vehicle holder</button>
     <button class="portal-btn" id="pb-admin" onclick="switchPortal('admin')">🛡️ Admin</button>
   </div>
 
@@ -302,10 +302,10 @@ html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;bac
         <div class="cc-hdr"><span>📞 BOOKING KE LIYE SAMPARK KAREIN</span></div>
         <div class="cc-body">
           <div style="font-size:11px;font-weight:700;color:var(--txt3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;">Sanjeet Ji Ka Number</div>
-          <div class="cc-num" id="owner-number">+91 8787010761</div>
-          <div class="cc-note">Sirf yahi ek number pe call ya WhatsApp karein<br>2 ghante ke andar jawab guaranteed ✅</div>
+          <div class="cc-num" id="owner-number">+91 8787010761 </div>
+          <div class="cc-note">Sirf yahi ek number pe call ya WhatsApp karein<br>30 minuteske andar jawab guaranteed ✅</div>
           <div class="cc-btns">
-            <a class="btn-call-big" id="call-link" href="tel:+918787010761">📞 Call Karo</a>
+            <a class="btn-call-big" id="call-link" href="tel:+918787010761" >📞 Call Karo</a>
             <a class="btn-wa-big" id="wa-link" href="https://wa.me/918787010761?text=Namaste%20Sanjeet%20Ji!%0AMujhe%20pickup%20chahiye." target="_blank">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.564 4.14 1.546 5.874L0 24l6.288-1.526A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.797 9.797 0 01-5.012-1.378l-.36-.213-3.731.905.944-3.63-.234-.374A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
               WhatsApp
@@ -317,11 +317,14 @@ html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;bac
       <!-- GUARANTEE -->
       <div class="guarantee">
         <div class="guar-icon">⏱️</div>
-        <div class="guar-text">2 Ghante Mein Response Guaranteed
-          <span>Sanjeet Ji khud dekhenge free driver kaun hai aur gadi bhejenge</span>
+        <div class="guar-text">30 Minutes Mein Response Guaranteed
+          <span>turant apna saman le jaye le aaye bina kisi delay ke</span>
         </div>
       </div>
-
+<div class="sec-title">🚗 Nearby Available Gadi</div>
+<div class="card" id="nearby-vehicles">
+  <div class="loading">Loading nearby vehicles...</div>
+</div>
       <!-- BOOKING FORM -->
       <div class="section">
         <div class="sec-title">📋 Abhi Booking Karo</div>
@@ -355,7 +358,7 @@ html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;bac
             <div class="success-banner">
               <div class="sb-icon">🎉</div>
               <div class="sb-title">Booking Ho Gayi!</div>
-              <div class="sb-sub">Sanjeet Ji 2 ghante mein call karenge</div>
+              <div class="sb-sub">30 minutes mein call aayega</div>
             </div>
           </div>
         </div>
@@ -363,9 +366,9 @@ html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;bac
         <!-- HOW IT WORKS -->
         <div class="sec-title">❓ Kaise Kaam Karta Hai</div>
         <div class="card">
-          <div class="step-row"><div class="step-num">1</div><div class="step-text"><b>Aap sirf ek number pe call karein</b> — Driver se seedha contact nahi hoga</div></div>
-          <div class="step-row"><div class="step-num">2</div><div class="step-text"><b>Sanjeet Ji free driver dhundhenge</b> — App pe real-time dekhenge kaun available hai</div></div>
-          <div class="step-row"><div class="step-num">3</div><div class="step-text"><b>2 ghante mein confirm</b> — Aapko callback aayega, gadi pakki hogi</div></div>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text"><b>Aap sirf ek number pe call karein</b> </div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text"> — App pe real-time dekhenge kaun available hai</div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text"><b>30 minutes mein confirm</b> — Aapko callback aayega, gadi pakki hogi</div></div>
           <div class="step-row"><div class="step-num">4</div><div class="step-text"><b>Driver aayega kaam karega</b> — Cash ya UPI, delivery pe payment</div></div>
         </div>
 
@@ -482,7 +485,7 @@ html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;bac
     ═══════════════════════════════ -->
     <div class="page" id="page-admin">
       <div class="hero hero-admin">
-        <div class="hero-eyebrow">🛡️ Sirf Aapke Liye — Sanjeet Ji</div>
+        <div class="hero-eyebrow">🛡️ Sirf Aapke Liye — Sanjeet Ji </div>
         <div class="hero-title">Poora Control<br>Aapke Haath Mein</div>
         <div class="hero-sub">Bookings dekhein · Free driver chunein · Call karein</div>
       </div>
@@ -554,7 +557,7 @@ html,body{height:100%;font-family:'Outfit','Noto Sans Devanagari',sans-serif;bac
 </div>
 
 <script>
-const OWNER_PHONE = '9999999999'; // <<< Yahan apna number daalo
+const OWNER_PHONE = '8787010761'; // <<< Yahan apna number daalo
 const API = ''; // same origin
 
 // ─── STATE ───────────────────────────────────────────────────
@@ -582,6 +585,7 @@ window.addEventListener('load', () => {
 });
 
 function loadInitial() {
+  getLocationAndLoadVehicles();
   loadStats();
   loadFreeDrivers();
   loadAdminBookings();
@@ -898,6 +902,62 @@ function goodsIcon(g) { const m={'Saman':'📦','Passenger':'👥','Kheti':'🌾
 function badgeClass(s) { return s==='pending'?'b-pend':s==='confirmed'?'b-conf':s==='done'?'b-done':'b-pend'; }
 function statusLabel(s) { return s==='pending'?'Pending':s==='confirmed'?'Confirmed ✓':s==='done'?'Done ✓':'Pending'; }
 function fmtDate(d) { if(!d) return ''; const dt=new Date(d); return dt.toLocaleDateString('hi-IN',{day:'numeric',month:'short'}); }
+  function getLocationAndLoadVehicles() {
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+
+      const res = await fetch(`/api/vehicles/nearby?lat=${lat}&lng=${lng}`);
+      const vehicles = await res.json();
+
+      renderVehicles(vehicles);
+    }, () => {
+      showToast("Location allow karo 📍", true);
+    });
+  }
+
+  function renderVehicles(vehicles) {
+    const el = document.getElementById('nearby-vehicles');
+
+    if (!vehicles.length) {
+      el.innerHTML = `<div class="empty">Koi gadi nearby free nahi hai</div>`;
+      return;
+    }
+
+    el.innerHTML = vehicles.map(v => `
+    <div class="driver-item">
+      <div>
+        <div class="driver-name">${v.vehicle}</div>
+        <div class="driver-info">${v.city} · ₹${v.farePerKm || 20}/km</div>
+      </div>
+      <button class="abtn abtn-green" onclick="bookVehicle('${v._id}')">
+        Book
+      </button>
+    </div>
+  `).join('');
+  }
+
+  async function bookVehicle(vehicleId) {
+    const name = document.getElementById('f-name').value;
+    const phone = document.getElementById('f-phone').value;
+
+    if (!name || !phone) {
+      showToast("Naam aur number bharo", true);
+      return;
+    }
+
+    await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        vehicleId,
+        customerName: name,
+        phone
+      })
+    });
+
+    showToast("🚀 Gadi book ho gayi!");
+  }
 </script>
 </body>
 </html>
